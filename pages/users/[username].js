@@ -1,0 +1,72 @@
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+
+import { publicFetch } from 'utils/fetcher';
+
+import Layout from 'layout';
+import {
+    AvatarCard,
+    UserCard,
+    PostList,
+    PostItem
+} from 'components/user';
+import { SpinnerIcon } from 'components/icons';
+
+const UserDetail = ({ username }) => {
+    const [posts, setPosts] = useState(null);
+    const [postType, setPostType] = useState('Questions');
+
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            const { data } = await publicFetch.get(`/question/user/${username}`);
+            setPosts(data);
+        }
+        fetchQuestions();
+    }, [postType, username]);
+
+    return (
+        <Layout extra={false}>
+            <Head>
+                <title>Users {username} - Forum</title>
+            </Head>
+
+            <UserCard>
+                <AvatarCard username={username} />
+                <PostList postType={postType} setPostType={setPostType}>
+                    {!posts && (
+                        <div className="loading">
+                            <SpinnerIcon />
+                        </div>
+                    )}
+
+                    {posts?.map(({ id, title, score, created }) => (
+                        <PostItem
+                            key={id}
+                            title={title}
+                            vote={score}
+                            created={created}
+                            id={id}
+                        />
+                    ))}
+
+                    {posts?.length == 0 && (
+                        <p className="not-found-questions">
+                            Don&apos;t have any questions yet.
+                        </p>
+                    )}
+                </PostList>
+            </UserCard>
+        </Layout>
+    );
+};
+
+export async function getServerSideProps(context) {
+    const username = context.params.username;
+    return {
+        props: {
+            username
+        }
+    }
+};
+
+export default UserDetail;

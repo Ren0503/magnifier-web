@@ -1,0 +1,11 @@
+.authModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.authSwitchMessage {
+    color: var(--black-700);
+    margin-top: 12px;
+}
+  

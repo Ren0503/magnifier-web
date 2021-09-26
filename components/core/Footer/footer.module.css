@@ -1,0 +1,31 @@
+.background {
+    position: relative;
+    background-color: var(--black-800);
+}
+
+.container {
+    max-width: 1264px;
+    margin: 0 auto;
+    padding: 50px;
+    display: grid;
+    grid-gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(157px, 1fr));
+}
+
+
+.item {
+    color: var(--black-200);
+
+    h5 {
+        font-weight: bold;
+        color: var(--white);
+    }
+
+    ul {
+        list-style: none;
+
+        li {
+            padding: 5px;
+        }
+    }
+}
